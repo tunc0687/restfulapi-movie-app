@@ -1,2 +1,2 @@
-# restfulapp-movie-app
+# restfulapi-movie-app
 Node JS Eğitim Seti Movie App
