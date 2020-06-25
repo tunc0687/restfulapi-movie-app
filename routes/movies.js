@@ -19,7 +19,7 @@ router.post('/', (req, res, next) => {
 // });
 
 
-// Tüm movie leri getir
+// Tüm movie leri yönetmenleri ile birlikte getir
 router.get("/", (req, res, next) => {
     const promise = Movie.aggregate([
         {
