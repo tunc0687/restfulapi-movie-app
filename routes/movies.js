@@ -11,12 +11,30 @@ router.post('/', (req, res, next) => {
         .catch(err => res.json(err));
 });
 
+// // Tüm movie leri getir
+// router.get('/', (req, res, next) => {
+//     const promise = Movie.find({});
+//     promise.then(data => res.json(data))
+//         .catch(err => res.json(err));
+// });
+
+
 // Tüm movie leri getir
-router.get('/', (req, res, next) => {
-    const promise = Movie.find({});
-    promise.then(data => res.json(data))
+router.get("/", (req, res, next) => {
+    const promise = Movie.aggregate([
+        {
+            $lookup: {
+                from: "directors",
+                localField: "director_id",
+                foreignField: "_id",
+                as: "director"
+            }
+        }
+    ]);
+    promise.then(director => res.json(director))
         .catch(err => res.json(err));
 });
+
 
 // imdb score a göre top10 movie yi getirir
 router.get('/top10', (req, res, next) => {
