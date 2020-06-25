@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
@@ -9,14 +10,44 @@ const Movie = require("../models/Movie");
 router.post("/", (req, res, next) => {
     const director = new Director(req.body);
     const promise = director.save();
-    promise.then(data => res.json(data))
+    promise.then(director => res.json(director))
         .catch(err => res.json(err));
 });
 
-// Tüm Directorları getirir
+// // Tüm Directorları getirir
+// router.get("/", (req, res, next) => {
+//     const promise = Director.find({});
+//     promise.then(director => res.json(director))
+//         .catch(err => res.json(err));
+// });
+
+// Tüm Directorları movie leri ile birlite getirir
 router.get("/", (req, res, next) => {
-    const promise = Director.find({});
-    promise.then(data => res.json(data))
+    const promise = Director.aggregate([
+        {
+            $lookup: {
+                from: "movies",
+                localField: "_id",
+                foreignField: "director_id",
+                as: "movies"
+            }
+        },
+        // {
+		// 	$unwind: {
+		// 		path: '$movies',
+		// 		preserveNullAndEmptyArrays: true
+		// 	}
+		// },
+        // {
+        //     $project: {
+        //         _id: true,
+        //         fullname: true,
+        //         bio: true,
+        //         movies: "$movies"
+        //     }
+        // }
+    ]);
+    promise.then(director => res.json(director))
         .catch(err => res.json(err));
 });
 
@@ -41,14 +72,29 @@ router.get('/:director_id/best10movie', (req, res, next) => {
     
 });
 
-// Id ye göre director getir
-router.get('/:director_id', (req, res, next) => {
+
+// Id si giriilen Directoru movie leri ile birlite getirir
+router.get("/:director_id", (req, res, next) => {
     const mongodbregex = /^[0-9a-fA-F]{24}$/;
 
     if (req.params.director_id.match(mongodbregex)) {
-        const promise = Director.findById(req.params.director_id);
+        const promise = Director.aggregate([
+            {
+                $match: {
+                    _id: mongoose.Types.ObjectId(req.params.director_id)
+                }
+            },
+            {
+                $lookup: {
+                    from: "movies",
+                    localField: "_id",
+                    foreignField: "director_id",
+                    as: "movies"
+                }
+            }
+        ]);
         promise.then(director => {
-            if (!director) {
+            if (director.length === 0) {
                 next({ message: "The director is not found!" });
             } else {
                 res.json(director); 
@@ -58,7 +104,9 @@ router.get('/:director_id', (req, res, next) => {
     } else {
         next({ message: "Geçerli bir id diriniz." });
     }
+    
 });
+
 
 // Id ye göre istenen directorü bulup güncellemek için kullanılır
 router.put('/:director_id', (req, res, next) => {
