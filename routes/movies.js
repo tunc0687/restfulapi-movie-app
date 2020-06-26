@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+//Models
 const Movie = require("../models/Movie");
 
 // Yeni movie ekle
@@ -31,7 +32,7 @@ router.get("/", (req, res, next) => {
             }
         }
     ]);
-    promise.then(director => res.json(director))
+    promise.then(movie => res.json(movie))
         .catch(err => res.json(err));
 });
 

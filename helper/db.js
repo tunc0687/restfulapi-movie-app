@@ -11,7 +11,7 @@ module.exports = () => {
         console.log("MongoDB bağlantı hatası.");
     });
     db.once('open', () => {
-        console.log("MongoDB bağlantı sağlandı.");
+        // console.log("MongoDB bağlantı sağlandı.");
     });
 
     mongoose.Promise = global.Promise;

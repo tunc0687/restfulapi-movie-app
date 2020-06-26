@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+// Routers import
 const indexRouter = require('./routes/index');
 const moviesRouter = require('./routes/movies');
 const directorsRouter = require('./routes/directors');
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routerlar
 app.use('/', indexRouter);
 app.use('/api', verifyToken);
 app.use('/api/movies', moviesRouter);
