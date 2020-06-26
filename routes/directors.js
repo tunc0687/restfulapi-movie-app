@@ -73,7 +73,7 @@ router.get('/:director_id/best10movie', (req, res, next) => {
 });
 
 
-// Id si giriilen Directoru movie leri ile birlite getirir
+// Id si girilen Directoru movie leri ile birlite getirir
 router.get("/:director_id", (req, res, next) => {
     const mongodbregex = /^[0-9a-fA-F]{24}$/;
 
@@ -97,7 +97,7 @@ router.get("/:director_id", (req, res, next) => {
             if (director.length === 0) {
                 next({ message: "The director is not found!" });
             } else {
-                res.json(director); 
+                res.json(director[0]); 
             }
             
         }).catch(err => res.json(err));
@@ -137,7 +137,7 @@ router.delete('/:director_id', (req, res, next) => {
             if (!director) {
                 next({ message: "The director is not found!" });
             } else {
-                res.json(director); 
+                res.json({status: 1}); 
             }
             
         }).catch(err => res.json(err));
