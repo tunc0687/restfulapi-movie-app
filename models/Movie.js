@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const MovieSchema = new Schema({
-    director_id: Schema.Types.ObjectId,
+    director_id: mongoose.Types.ObjectId,
     title: {
         type: String,
         required: [true, "`{PATH}` alanı zorunludur."],

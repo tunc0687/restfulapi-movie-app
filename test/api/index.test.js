@@ -2,7 +2,7 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 
 const should = chai.should();
-const server = require("../app");
+const server = require("../../app");
 
 chai.use(chaiHttp);
 
@@ -16,6 +16,3 @@ describe("Restfull Api Movie server", () => {
             });
     });
 });
-
-
-
