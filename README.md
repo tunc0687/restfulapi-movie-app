@@ -1,6 +1,6 @@
 [![Build status](https://api.travis-ci.com/tunc0687/restfulapi-movie-app.svg)](https://travis-ci.com/github/tunc0687/restfulapi-movie-app)
 
-Demo: https://travis-ci.com/github/tunc0687/restfulapi-movie-app
+Demo: https://restful-movieapp.herokuapp.com/
 
 # restfulapi-movie-app
 Node JS Eğitim Seti Movie App
